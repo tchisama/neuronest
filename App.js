@@ -8,9 +8,16 @@ import ChatScreen from './screens/ChatScreen';
 import TodosScreen from './screens/TodosScreen';
 import RemindersScreen from './screens/RemindersScreen';
 import Ionic from "react-native-vector-icons/MaterialCommunityIcons"
+import { useState } from 'react';
 
+import TodosContext from './context/TodosContext';
 
 export default function App() {
+
+  const [todos,setTodos]=useState([]);
+
+
+
   const Tab = createBottomTabNavigator();
   const iconSetter = ({route})=>({
     tabBarIcon:({focused,size,colour})=>{
@@ -42,20 +49,23 @@ export default function App() {
     tabBarHideOnKeyboard: true,
   })
   return (
-    <NavigationContainer>
-        <Tab.Navigator 
-          screenOptions={
-            iconSetter
-          }
-          >
-          <Tab.Screen  name="Todos" component={TodosScreen}/>
-          <Tab.Screen name="Reminders" component={RemindersScreen}/>
-          <Tab.Screen name="Chat" component={ChatScreen}/>
-          <Tab.Screen name="Calendar" component={RemindersScreen}/>
-          <Tab.Screen name="Settings" component={RemindersScreen}/>
-        </Tab.Navigator>
-        <StatusBar style="dark"/>
-    </NavigationContainer>
+<TodosContext.Provider value={{todos,setTodos}}>
+      <NavigationContainer>
+          <Tab.Navigator 
+            screenOptions={
+              iconSetter
+            }
+            >
+            
+              <Tab.Screen  name="Todos" component={TodosScreen}/>
+              <Tab.Screen name="Reminders" component={RemindersScreen}/>
+              <Tab.Screen name="Chat" component={ChatScreen}/>
+              <Tab.Screen name="Calendar" component={RemindersScreen}/>
+              <Tab.Screen name="Settings" component={RemindersScreen}/>
+          </Tab.Navigator>
+          <StatusBar style="dark"/>
+      </NavigationContainer>
+    </TodosContext.Provider>
   );
 }
 
