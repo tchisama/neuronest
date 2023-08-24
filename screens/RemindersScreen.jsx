@@ -10,7 +10,7 @@ const RemindersScreen = () => {
         <View style={tw`p-2 pt-4 bg-white border-b border-b-gray-200`}>
             <Text style={tw`text-white text-4xl text-[#766AFF] font-bold `}>Reminders</Text>
         </View>
-        <ScrollView style={tw`flex-1 bg-gray-100 rounded-xl flex-1`}>
+        <ScrollView style={tw`flex-1 bg-gray-100 rounded-xl flex-1 px-1`}>
             <View style={tw`py-5`}></View>
 
             <View style={tw`bg-white shadow-sm m-1 p-3 items-start rounded-xl gap-y-2`}>
