@@ -7,17 +7,22 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fa from "react-native-vector-icons/FontAwesome5"
 const ChatScreen = () => {
   return (
-    <SafeAreaView  style={tw`bg-[#eee] flex-1 p-2`}>
-        <Text style={tw`text-white text-4xl font-bold px-2 py-2 text-[#766AFF]`}>Talk Flow</Text>
-        <ScrollView style={tw`flex-1 rounded-xl `}>
+    <SafeAreaView  style={tw`bg-white flex-1 `}>
+
+        <View style={tw`p-2 pt-4 bg-white border-b border-b-gray-200`}>
+            <Text style={tw`text-white text-4xl text-[#766AFF] font-bold `}>Talk Flow</Text>
+        </View>
+
+        <ScrollView style={tw`flex-1 bg-gray-100 rounded-xl px-2`}>
             <View style={tw`mt-10`}></View>
 
-            <View style={tw`flex-row  gap-x-2 py-2`}>
-                <View style={tw`h-8 w-8 bg-[#766AFF] rounded-full justify-center items-center`}>
-                    <Icon name="robot" color="white" size={18}></Icon>
+            <View style={tw`gap-x-2 py-2 flex-row`}>
+                <View style={tw`gap-1 `}>
+                    <View style={tw`h-2 w-2 border-2 border-[#766AFF] rounded-full justify-center items-center`}></View>
+                    <View style={tw`h-2 w-2 border-2 border-[#766AFF] rounded-full justify-center items-center`}></View>
                 </View>
-                <View style={tw`bg-[#766AFF] p-4 flex-1 rounded-xl max-w-[80%]`}>
-                    <Text style={tw`text-base font-medium text-white`}>hello tchisama what are you going to do today , hope its well be a great day for you!</Text>
+                <View style={tw`bg-[#766AFF] p-3 flex-1 rounded-xl shadow-sm max-w-[80%]`}>
+                    <Text style={tw`text-base font-medium text-white `}>hello tchisama what are you going to do today</Text>
                 </View>
             </View>
 
@@ -25,14 +30,14 @@ const ChatScreen = () => {
                 <View style={tw`h-8 w-8 bg-[#ddd] rounded-full justify-center items-center`}>
                     <Fa name="user-alt" size={18} color="#888"></Fa>
                 </View>
-                <View style={tw`bg-white p-4  rounded-xl max-w-[80%]`}>
-                    <Text style={tw`text-base font-medium text-gray-700`}>hello </Text>
+                <View style={tw`bg-white p-3  rounded-xl max-w-[80%] shadow-sm`}>
+                    <Text style={tw`text-base font-medium text-gray-700 `}>hello </Text>
                 </View>
             </View>
 
         </ScrollView>
-        <View style={tw`h-12  flex-row`}>
-            <TextInput style={tw` h-full bg-gray-200 flex-1 rounded-xl px-2`}></TextInput> 
+        <View style={tw`h-14  flex-row bg-white p-1 px-2 shadow-xl`}>
+            <TextInput placeholder='what you want to do ?' style={tw` h-full bg-gray-100 border border-gray-200 flex-1 rounded-xl px-2`}></TextInput> 
             <TouchableOpacity style={tw`p-2 h-full justify-center items-center `}>
                 <Ionic name="send" size={28} color={"#766AFF"}></Ionic>
             </TouchableOpacity>
