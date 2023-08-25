@@ -9,8 +9,10 @@ import ChatBlob from '../components/ChatBlob';
 import ChatBlobUser from '../components/ChatBlobUser';
 import axios from "axios";
 import TodosContext from '../context/TodosContext';
+import AlarmsContext from '../context/AlarmsContext';
 const ChatScreen = () => {
     const {todos,setTodos}=useContext(TodosContext)
+    const {alarms,setAlarms}=useContext(AlarmsContext)
     const [chatData,setChatData]=useState([
         {
             from:"bot",
@@ -35,7 +37,7 @@ const ChatScreen = () => {
             message:msg,
             data:`{
                 todos:${JSON.stringify(todos)},
-                alarms:[]
+                alarms:${JSON.stringify(alarms)}
             }`
         }).then((res)=>{
             console.log(res.data)
@@ -46,12 +48,67 @@ const ChatScreen = () => {
                     id:chatData.length
                 }
             ])
+            if(res.data?.toadd?.length>0){
+                setChatData(p=>[...p,
+                    {
+                        from:"bot-",
+                        text:`adding ${res.data.toadd.length} tasks to the todos list`,
+                        id:chatData.length
+                    }
+                ])
+            }
+            if(res.data?.toupdate?.length>0){
+                setChatData(p=>[...p,
+                    {
+                        from:"bot-",
+                        text:`updating ${res.data.toupdate.length} tasks `,
+                        id:chatData.length
+                    }
+                ])
+            }
+            if(res.data?.todelete?.length>0){
+                setChatData(p=>[...p,
+                    {
+                        from:"bot-",
+                        text:`deleting ${res.data.todelete.length} tasks `,
+                        id:chatData.length
+                    }
+                ])
+            }
+
+            
+
+
 
             res.data.toadd.forEach(element => {
                 if(element.type=="task"){
-                    setTodos(p=>[...p,element.add])
+                    setTodos(p=>[element.add,...p])
+                }else{
+
+                    setAlarms(p=>[element.add,...p])
                 }
             });
+
+            res.data.toupdate.forEach(element => {
+                if(element.type=="task"){
+                    setTodos(p=>p.map(todo=>todo.id==element.id?element.new:todo))
+                }else{
+                    setAlarms(p=>p.map(alarm=>alarm.id==element.id?element.new:alarm))
+                }
+            });
+
+            res.data.todelete.forEach(element => {
+                if(element.type=="task"){
+                    setTodos(p=>p.filter(todo=>todo.id!=element.id))
+                }else{
+                    setAlarms(p=>p.filter(alarm=>alarm.id!=element.id))
+                }
+            });
+
+
+
+
+
         }).catch(err=>console.log(err))
     }
   return (
@@ -71,7 +128,14 @@ const ChatScreen = () => {
 {
     chatData.map((msg,i)=>{
         return(
-            msg.from=="user"?<ChatBlobUser key={i} text={msg.text}/>:<ChatBlob text={msg.text}/>
+            msg.from=="user"?
+            <ChatBlobUser key={i} text={msg.text}/>
+            :msg.from=="bot-"?
+            <View key={i} style={tw`flex-row items-center py-1`}>
+                <Fa color="#766aff" name="check-circle" size={12}></Fa>
+                <Text style={tw`px-2 font-medium text-[#766AFF] `}>{msg.text}</Text>
+            </View>
+            :<ChatBlob key={i} text={msg.text}/>
         )
     })
 }

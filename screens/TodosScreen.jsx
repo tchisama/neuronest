@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import tw from "twrnc";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Fa from "react-native-vector-icons/FontAwesome"
@@ -7,6 +7,10 @@ import TodosContext from '../context/TodosContext';
 
 const TodosScreen = () => {
     const {todos,setTodos}=useContext(TodosContext)
+    const [select,setSelect]=useState()
+    useEffect(()=>{
+        setSelect(todos.map(()=>({selected:false})))
+    },[todos])
   return (
     <SafeAreaView  style={tw` flex-1 bg-white`}>
         <View style={tw`p-2 pt-4 bg-white border-b border-b-gray-200`}>
@@ -18,13 +22,27 @@ const TodosScreen = () => {
 
 {
     todos.map((todo,i)=>(
-            <View key={i} style={tw`bg-white shadow-sm m-1 p-3 items-start rounded-xl flex-row gap-x-2`}>
-                <TouchableOpacity style={tw` p-1`}>
+            <TouchableOpacity key={i} style={tw`bg-white shadow-sm m-1 p-3 items-start rounded-xl flex-row gap-x-2`}>
+                <TouchableOpacity onPress={()=>setTodos(p=>p.map((t,ii)=>ii==i?{...t,done:!t.done}:t))} style={tw` p-1`}>
                     <Fa name={todo.done?"check-circle":"circle"} size={25} color="#766AFF"></Fa>
                 </TouchableOpacity>
                 <Text style={tw`flex-1 py-1 text-base font-medium text-gray-700`}>{todo.name}</Text>
-            </View>
-    ))
+                <TouchableOpacity style={tw`p-2`}>
+                    <Fa name={"ellipsis-v"} size={15} color="#766AFF"></Fa>
+                </TouchableOpacity>
+
+            </TouchableOpacity>
+    )) 
+}
+{
+    todos.length==0 && 
+    <View style={tw`flex-1 justify-center items-center gap-y-4`}>
+        <Text style={tw`text-5xl p-2`}>🌟</Text>
+        <Text style={tw`text-center w-[80%] mx-auto text-gray-400 font-medium`}>Empty list, full of potential. Time to add tasks and make things happen!</Text>
+        <TouchableOpacity style={tw`px-6 py-3 flex-row gap-x-2 items-center justify-center rounded-xl bg-white shadow-sm m-1`}>
+            <Text style={tw`text-[#766aff] font-medium text-base`}> add task</Text>
+        </TouchableOpacity>
+    </View>
 }
 
         </ScrollView>

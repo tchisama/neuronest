@@ -11,10 +11,16 @@ import Ionic from "react-native-vector-icons/MaterialCommunityIcons"
 import { useState } from 'react';
 
 import TodosContext from './context/TodosContext';
+import AlarmsContext from './context/AlarmsContext';
 
 export default function App() {
 
-  const [todos,setTodos]=useState([]);
+  const [todos,setTodos]=useState([{
+    "name": "cleaning the house",
+    "done": false,
+    "id": 1      
+  }]);
+  const [alarms,setAlarms]=useState([]);
 
 
 
@@ -50,6 +56,9 @@ export default function App() {
   })
   return (
 <TodosContext.Provider value={{todos,setTodos}}>
+<AlarmsContext.Provider value={{alarms,setAlarms}}>
+
+
       <NavigationContainer>
           <Tab.Navigator 
             screenOptions={
@@ -65,6 +74,9 @@ export default function App() {
           </Tab.Navigator>
           <StatusBar style="dark"/>
       </NavigationContainer>
+
+
+    </AlarmsContext.Provider>
     </TodosContext.Provider>
   );
 }
