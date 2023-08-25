@@ -15,11 +15,7 @@ import AlarmsContext from './context/AlarmsContext';
 
 export default function App() {
 
-  const [todos,setTodos]=useState([{
-    "name": "cleaning the house",
-    "done": false,
-    "id": 1      
-  }]);
+  const [todos,setTodos]=useState([]);
   const [alarms,setAlarms]=useState([]);
 
 

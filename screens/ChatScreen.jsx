@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionic from "react-native-vector-icons/MaterialCommunityIcons"
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fa from "react-native-vector-icons/FontAwesome5"
+import F from "react-native-vector-icons/FontAwesome"
 import ChatBlob from '../components/ChatBlob';
 import ChatBlobUser from '../components/ChatBlobUser';
 import axios from "axios";
@@ -143,8 +144,8 @@ const ChatScreen = () => {
         </ScrollView>
         <View style={tw`h-16  flex-row bg-white p-1 px-2 shadow-xl`}>
             <TextInput multiline defaultValue={input} onChangeText={(newText)=>setInput(newText)} placeholder='what you want to do ?' style={tw` h-full bg-gray-100 border border-gray-200 flex-1 rounded-xl px-2`}></TextInput> 
-            <TouchableOpacity onPress={send} style={tw`p-2 h-full justify-center items-center `}>
-                <Ionic name="send" size={28} color={"#766AFF"}></Ionic>
+            <TouchableOpacity onPress={send} style={tw`p-2 px-4 h-full justify-center items-center `}>
+                <F name="send" size={22} color={"#766AFF"}></F>
             </TouchableOpacity>
         </View>
     </SafeAreaView>

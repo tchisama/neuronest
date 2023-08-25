@@ -8,6 +8,7 @@ import TodosContext from '../context/TodosContext';
 const TodosScreen = () => {
     const {todos,setTodos}=useContext(TodosContext)
     const [select,setSelect]=useState()
+    const [input,setInput]=useState("")
     useEffect(()=>{
         setSelect(todos.map(()=>({selected:false})))
     },[todos])
@@ -46,6 +47,12 @@ const TodosScreen = () => {
 }
 
         </ScrollView>
+        <View style={tw`h-16  flex-row bg-white p-1 px-2 shadow-xl`}>
+            <TextInput multiline defaultValue={input} onChangeText={(newText)=>setInput(newText)} placeholder='what is your next task?' style={tw` h-full bg-gray-100 border border-gray-200 flex-1 rounded-xl px-2`}></TextInput> 
+            <TouchableOpacity onPress={()=>{setTodos(p=>[{name:input,id:Math.random(),done:false},...p]);setInput("")}} style={tw`p-2 px-4 h-full justify-center items-center `}>
+                <Fa name="plus" size={22} color={"#766AFF"}></Fa>
+            </TouchableOpacity>
+        </View>
     </SafeAreaView>
   )
 }
