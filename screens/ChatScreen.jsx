@@ -11,9 +11,11 @@ import ChatBlobUser from '../components/ChatBlobUser';
 import axios from "axios";
 import TodosContext from '../context/TodosContext';
 import AlarmsContext from '../context/AlarmsContext';
+import EventsContext from '../context/EventsContext';
 const ChatScreen = () => {
     const {todos,setTodos}=useContext(TodosContext)
     const {alarms,setAlarms}=useContext(AlarmsContext)
+    const {events,setEvents}=useContext(EventsContext)
     const [chatData,setChatData]=useState([
         {
             from:"bot",
@@ -36,9 +38,11 @@ const ChatScreen = () => {
         setInput("")
         axios.post("http://192.168.1.6:8080/chat",{
             message:msg,
+            "date-now":new Date().toString(),
             data:`{
-                todos:${JSON.stringify(todos)},
-                alarms:${JSON.stringify(alarms)}
+                tasks:${JSON.stringify(todos)},
+                alarms:${JSON.stringify(alarms)},
+                events:${JSON.stringify(events)},
             }`
         }).then((res)=>{
             console.log(res.data)
@@ -49,11 +53,12 @@ const ChatScreen = () => {
                     id:chatData.length
                 }
             ])
+
             if(res.data?.toadd?.length>0){
                 setChatData(p=>[...p,
                     {
                         from:"bot-",
-                        text:`adding ${res.data.toadd.length} tasks to the todos list`,
+                        text:`adding ${res.data.toadd.length}`,
                         id:chatData.length
                     }
                 ])
@@ -62,7 +67,7 @@ const ChatScreen = () => {
                 setChatData(p=>[...p,
                     {
                         from:"bot-",
-                        text:`updating ${res.data.toupdate.length} tasks `,
+                        text:`updating ${res.data.toupdate.length}`,
                         id:chatData.length
                     }
                 ])
@@ -71,7 +76,7 @@ const ChatScreen = () => {
                 setChatData(p=>[...p,
                     {
                         from:"bot-",
-                        text:`deleting ${res.data.todelete.length} tasks `,
+                        text:`deleting ${res.data.todelete.length}`,
                         id:chatData.length
                     }
                 ])
@@ -84,25 +89,47 @@ const ChatScreen = () => {
             res.data.toadd.forEach(element => {
                 if(element.type=="task"){
                     setTodos(p=>[element.add,...p])
-                }else{
-
+                }else if(element.type=="alarm"){
                     setAlarms(p=>[element.add,...p])
+                }else {
+                    setEvents(p=>({...p,
+                                    [element.add.date]:
+                                    [...(p[element.add.date]||[]),{name:element.add.name,id:Math.random(),time:element.add.time}]      
+                                }))
                 }
             });
 
             res.data.toupdate.forEach(element => {
                 if(element.type=="task"){
                     setTodos(p=>p.map(todo=>todo.id==element.id?element.new:todo))
-                }else{
+                }else  if(element.type=="alarm"){
                     setAlarms(p=>p.map(alarm=>alarm.id==element.id?element.new:alarm))
+                }else{
+                    setEvents(p => ({
+                        ...p,
+                        [element.day]: p[element.day].map(event => {
+                            if (event.id === element.id) {
+                                return element.new;
+                            }
+                            return event;
+                        })
+                    }));
+
                 }
             });
 
             res.data.todelete.forEach(element => {
                 if(element.type=="task"){
                     setTodos(p=>p.filter(todo=>todo.id!=element.id))
-                }else{
+                }else  if(element.type=="alarm"){
                     setAlarms(p=>p.filter(alarm=>alarm.id!=element.id))
+                }else{
+                    setEvents(p => ({
+                        ...p,
+                        [element.day]: p[element.day].filter(event => event.id !== element.id)
+                    }));
+                    console.log(JSON.stringify(events))
+                    
                 }
             });
 

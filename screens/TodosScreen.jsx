@@ -40,9 +40,6 @@ const TodosScreen = () => {
     <View style={tw`flex-1 justify-center items-center gap-y-4`}>
         <Text style={tw`text-5xl p-2`}>🌟</Text>
         <Text style={tw`text-center w-[80%] mx-auto text-gray-400 font-medium`}>Empty list, full of potential. Time to add tasks and make things happen!</Text>
-        <TouchableOpacity style={tw`px-6 py-3 flex-row gap-x-2 items-center justify-center rounded-xl bg-white shadow-sm m-1`}>
-            <Text style={tw`text-[#766aff] font-medium text-base`}> add task</Text>
-        </TouchableOpacity>
     </View>
 }
 

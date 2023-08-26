@@ -4,19 +4,24 @@ import tw from "twrnc";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import ChatScreen from './screens/ChatScreen';
 import TodosScreen from './screens/TodosScreen';
+import CalendarScreen from './screens/CalendarScreen';
+
 import RemindersScreen from './screens/RemindersScreen';
 import Ionic from "react-native-vector-icons/MaterialCommunityIcons"
 import { useState } from 'react';
 
 import TodosContext from './context/TodosContext';
 import AlarmsContext from './context/AlarmsContext';
+import EventsContext from './context/EventsContext';
 
 export default function App() {
 
   const [todos,setTodos]=useState([]);
   const [alarms,setAlarms]=useState([]);
+  const [events,setEvents]=useState({});
 
 
 
@@ -53,6 +58,7 @@ export default function App() {
   return (
 <TodosContext.Provider value={{todos,setTodos}}>
 <AlarmsContext.Provider value={{alarms,setAlarms}}>
+<EventsContext.Provider value={{events,setEvents}}>
 
 
       <NavigationContainer>
@@ -65,13 +71,14 @@ export default function App() {
               <Tab.Screen  name="Todos" component={TodosScreen}/>
               <Tab.Screen name="Reminders" component={RemindersScreen}/>
               <Tab.Screen name="Chat" component={ChatScreen}/>
-              <Tab.Screen name="Calendar" component={RemindersScreen}/>
+              <Tab.Screen name="Calendar" component={CalendarScreen}/>
               <Tab.Screen name="Settings" component={RemindersScreen}/>
           </Tab.Navigator>
           <StatusBar style="dark"/>
       </NavigationContainer>
 
 
+    </EventsContext.Provider>
     </AlarmsContext.Provider>
     </TodosContext.Provider>
   );

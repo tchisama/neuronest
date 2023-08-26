@@ -21,7 +21,7 @@ const RemindersScreen = () => {
                 <Text style={tw`text-base font-medium text-gray-500`}>{alarm.name}</Text>
                 <View style={tw`flex-row gap-x-2`}>
                 <View style={tw`flex-row gap-x-2 items-end`}>
-                    <Text style={tw`pt-4  text-5xl font-medium text-[#766AFF]`}>{Math.floor(alarm.time)}:00</Text>
+                    <Text style={tw`pt-4  text-5xl font-medium text-[#766AFF]`}>{alarm.time.slice(0,5)}</Text>
                 </View>
                 <View style={tw`flex-1 `}>
                     <View style={tw`flex-row items-end flex-1 justify-end`}>
