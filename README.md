@@ -1,4 +1,5 @@
 # Neuronest: AI-Powered Productivity App
+![Frame 6 (3)](https://github.com/tchisama/neuronest/assets/115560200/c3905f76-19a8-40f1-96be-aa7e8c84438b)
 
 ## Overview
 
